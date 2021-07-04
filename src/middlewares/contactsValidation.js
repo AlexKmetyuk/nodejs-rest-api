@@ -1,5 +1,7 @@
 const Joi = require("joi");
 
+const { ValidationError } = require("../helpers/errors");
+
 const addContactValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().required(),
@@ -11,9 +13,7 @@ const addContactValidation = (req, res, next) => {
   const validationResult = schema.validate(req.body);
 
   if (validationResult.error) {
-    return res
-      .status(400)
-      .json({ status: validationResult.error.details[0].message });
+    throw new ValidationError(validationResult.error.details[0].message);
   }
 
   next();
@@ -27,10 +27,9 @@ const updateContactValidation = (req, res, next) => {
   });
 
   const validationResult = schema.validate(req.body);
+
   if (validationResult.error) {
-    return res
-      .status(400)
-      .json({ status: validationResult.error.details[0].message });
+    throw new ValidationError(validationResult.error.details[0].message);
   }
 
   next();
@@ -43,7 +42,7 @@ const updateContactStatusValidation = (req, res, next) => {
 
   const validationResult = schema.validate(req.body);
   if (validationResult.error) {
-    return res.status(400).json({ message: "missing field favorite" });
+    next(new ValidationError(validationResult.error.details[0].message));
   }
 
   next();
