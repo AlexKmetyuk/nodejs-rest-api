@@ -8,7 +8,8 @@ const authMiddleware = async (req, res, next) => {
   try {
     const [tokenType, token] = req.headers["authorization"].split(" ");
     if (!token) {
-      throw new NotAuthorizedError("Not authorized");
+      next(NotAuthorizedError("Not authorized"));
+      return;
     }
     const user = jwt.decode(token, process.env.JWT_SECRET);
     if (!user) {
@@ -25,7 +26,8 @@ const authMiddleware = async (req, res, next) => {
 
     next();
   } catch (error) {
-    throw new NotAuthorizedError("Not authorized");
+    next(NotAuthorizedError("Not authorized"));
+    return;
   }
 };
 
