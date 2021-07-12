@@ -6,8 +6,6 @@ const { asyncWrapper } = require("../helpers/apiHelpers");
 
 const { authMiddleware } = require("../middlewares/authMiddleware");
 
-router.use(authMiddleware);
-
-router.get("/current", asyncWrapper(getCurrentUserController));
+router.get("/current", authMiddleware, asyncWrapper(getCurrentUserController));
 
 module.exports = router;

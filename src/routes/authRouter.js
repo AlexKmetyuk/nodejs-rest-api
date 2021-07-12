@@ -13,10 +13,12 @@ const {
 } = require("../middlewares/authValidation");
 const { authMiddleware } = require("../middlewares/authMiddleware");
 
+///
+
 router.post("/signup", signupValidation, asyncWrapper(signupController));
+
 router.post("/login", loginValidation, asyncWrapper(loginController));
 
-router.use(authMiddleware);
-router.post("/logout", asyncWrapper(logoutController));
+router.post("/logout", authMiddleware, asyncWrapper(logoutController));
 
 module.exports = router;

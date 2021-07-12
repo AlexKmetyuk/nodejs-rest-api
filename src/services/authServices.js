@@ -1,12 +1,17 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var gravatar = require("gravatar");
 
 const { User } = require("../db/userModel");
 const { NotAuthorizedError } = require("../helpers/errors");
 
 const signup = async (email, password) => {
   try {
-    const user = new User({ email, password: await bcrypt.hash(password, 10) });
+    const user = new User({
+      email,
+      password: await bcrypt.hash(password, 10),
+      avatarURL: gravatar.url(email),
+    });
     await user.save();
     return user;
   } catch (error) {
