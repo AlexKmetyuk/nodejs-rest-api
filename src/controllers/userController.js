@@ -6,6 +6,7 @@ const getCurrentUserController = async (req, res) => {
   res.status(200).json({
     email: currentUser.email,
     subscription: currentUser.subscription,
+    avatarURL: currentUser.avatarURL,
   });
 };
 

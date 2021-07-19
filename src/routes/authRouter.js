@@ -5,6 +5,8 @@ const {
   loginController,
   signupController,
   logoutController,
+  signupVerificationController,
+  signupVerificationByEmailController,
 } = require("../controllers/authController");
 const { asyncWrapper } = require("../helpers/apiHelpers");
 const {
@@ -16,6 +18,13 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 ///
 
 router.post("/signup", signupValidation, asyncWrapper(signupController));
+
+router.post(
+  "/verify/:verificationToken",
+  asyncWrapper(signupVerificationController)
+);
+
+router.post("/verify", asyncWrapper(signupVerificationByEmailController));
 
 router.post("/login", loginValidation, asyncWrapper(loginController));
 

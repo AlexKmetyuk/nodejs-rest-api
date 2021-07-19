@@ -7,6 +7,9 @@ const { updateUserAvatar } = require("../services/userServices");
 const AVATARS_DIR = path.resolve("./public/avatars");
 
 const updateCurrentAvatarController = async (req, res) => {
+  if (!req.file) {
+    throw new Error("File is missing!");
+  }
   const avatarUrl = req.file.path;
   const newAvatarUrl = path.join(AVATARS_DIR, req.file.filename);
 
